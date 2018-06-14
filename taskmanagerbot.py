@@ -5,7 +5,8 @@ import urllib
 from dbhelper import DBHelper
 db = DBHelper()
 
-TOKEN = "562686849:AAEH15zrQ8Jaqw_8eOwQ80SQQ85190CFyR8"
+#API token provided by telegram Botfather
+TOKEN = "<API TOKEN HERE>"
 URL = "https://api.telegram.org/bot{}/".format(TOKEN)
 
 
@@ -29,6 +30,7 @@ def get_updates(offset=None):
     return js
 
 
+#used to get the last update's chat id and text from telegram API
 def get_last_chat_id_and_text(updates):
     num_updates = len(updates["result"])
     last_update = num_updates - 1
@@ -43,6 +45,7 @@ def log(updates):
     name = updates["result"][last_update]["message"]["chat"]["username"]
     return name
 
+#to send message to users
 def send_message(text, chat_id,reply_markup=None):
     text = urllib.parse.quote_plus(text)
     url = URL + "sendMessage?text={}&chat_id={}".format(text, chat_id)
@@ -51,6 +54,7 @@ def send_message(text, chat_id,reply_markup=None):
     get_url(url)
     
 
+#to get the last update id from telegram API
 def get_last_update_id(updates):
     update_ids = []
     for update in updates["result"]:
@@ -59,7 +63,7 @@ def get_last_update_id(updates):
 
 
 
-
+#inline keyboard with add,remove,show,delete list
 def build_kboard(options):
      keyboard = [[item] for item in options]
      reply_markup = {"keyboard":keyboard,"one_time_keyboard": True}
@@ -67,6 +71,7 @@ def build_kboard(options):
 
 
 
+#most important function that maintains the bot
 def handle_updates(updates):
     for update in updates["result"]:
         try:
@@ -127,7 +132,7 @@ def handle_updates(updates):
 
 
 
-
+#inline keyboars used in removing a task
 def build_keyboard(items):
     keyboard = [["- " + item] for item in items]
     reply_markup = {"keyboard":keyboard, "one_time_keyboard": True}
