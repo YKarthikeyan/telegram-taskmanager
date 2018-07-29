@@ -144,6 +144,7 @@ def main():
     db.setup()
     last_update_id = None
     while True:
+     try:
         print('Getting updates...')
         updates = get_updates(last_update_id)
         log_name = log(updates)
@@ -152,6 +153,8 @@ def main():
             last_update_id = get_last_update_id(updates) + 1
             handle_updates(updates)
         time.sleep(0.5)
+     except IndexError:
+        pass
 
 if __name__ == '__main__':
 	main()
